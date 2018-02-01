@@ -65,11 +65,11 @@
         xhr.responseType = 'arraybuffer';
         xhr.setRequestHeader('Range', 'bytes=' + start + '-' + end);
         xhr.onload = function () {
-		  var state = [['fetched bytes:', start + '-' + end], ['current segment:', getCurrentSegment()], ['current segment buffered:', currentSegment + 1]];
-          bytesFetched += end - start + 1;
-          cb(xhr.response);
-		  currentSegment++;
-		  console.table(state);
+		//var state = [['fetched bytes:', start + '-' + end], ['current segment:', getCurrentSegment()], ['current segment buffered:', currentSegment + 1]];
+		//bytesFetched += end - start + 1;
+		cb(xhr.response);
+		currentSegment++;
+		//console.table(state);
         };
         xhr.send();
       };
@@ -85,17 +85,11 @@
           mediaSource.endOfStream();
           video.removeEventListener('timeupdate', checkBuffer);
         } else if(!requestedSegments[currentSegment]){
-			//if(currentSegment - getCurrentSegment() < 6){
-				fetchRange(assetURL, bytesFetched, bytesFetched + segmentLength, appendSegment);
-				requestedSegments[currentSegment] = true;
-			//}
-		  }
-		//else if (shouldFetchNextSegment(currentSegment)) {
-        // requestedSegments[currentSegment] = true;
-        // console.log('time to fetch next chunk', video.currentTime);
-        // fetchRange(assetURL, bytesFetched, bytesFetched + segmentLength, appendSegment);
-        //}
-        //console.log(video.currentTime, currentSegment, segmentDuration);
+	//if(currentSegment - getCurrentSegment() < 6){
+		fetchRange(assetURL, bytesFetched, bytesFetched + segmentLength, appendSegment);
+		requestedSegments[currentSegment] = true;
+	//}
+	}
       };
 
       function seek (e) {
@@ -112,15 +106,7 @@
       function getCurrentSegment () {
         return ((video.currentTime / segmentDuration) | 0) + 1;
       };
-
-      function haveAllSegments () {
-        return requestedSegments.every(function (val) { return !!val; });
-      };
-
-      function shouldFetchNextSegment (currentSegment) {
-        return video.currentTime > segmentDuration * currentSegment * 0.8 &&
-          !requestedSegments[currentSegment];
-      };
+	    
     </script>
   </body>
 </html>
