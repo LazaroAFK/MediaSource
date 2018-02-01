@@ -93,9 +93,14 @@
       };
 
       function seek (e) {
-        console.log(e);
-          sourceBuffer.abort();
-          console.log(mediaSource.readyState);
+	      console.log(e);
+	      if (mediaSource.readyState === 'open') {
+		      sourceBuffer.abort();
+		      console.log(mediaSource.readyState);
+	      } else {
+		      console.log('seek but not open?');
+		      console.log(mediaSource.readyState);
+	      }
       };
 
       function getCurrentSegment () {
